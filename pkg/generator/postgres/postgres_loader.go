@@ -136,9 +136,11 @@ func parseType(
 		typ = metadata.DataTypeJSONB
 	case "float":
 		typ = metadata.DataTypeFloat32
+	case "double precision":
+		typ = metadata.DataTypeFloat64
 	case "numeric":
 		typ = metadata.DataTypeBigInt
-	case "decimal", "double precision":
+	case "decimal":
 		typ = metadata.DataTypeFloat64
 	case "date", "timestamp with time zone", "time with time zone", "time without time zone", "timestamp without time zone":
 		typ = metadata.DataTypeTime
