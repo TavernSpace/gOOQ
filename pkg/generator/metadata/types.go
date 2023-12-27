@@ -17,8 +17,7 @@ var (
 	DataTypeFloat64     = DataType{Name: "Decimal", Literal: "float64", NullableLiteral: "null.Float"}
 	DataTypeInt         = DataType{Name: "Int", Literal: "int", NullableLiteral: "null.Int"}
 	DataTypeInt64       = DataType{Name: "Int", Literal: "int64", NullableLiteral: "null.Int"}
-	DataTypeBigInt      = DataType{Name: "BigInt", Literal: "big.Int", NullableLiteral: "big.Int"}
-	DataTypeBigFloat    = DataType{Name: "BigFloat", Literal: "big.Float", NullableLiteral: "nullable.BigFloat"}
+	DataTypeBigInt      = DataType{Name: "BigInt", Literal: "*big.Int", NullableLiteral: "nullable.BigInt"}
 	DataTypeJSONB       = DataType{Name: "Jsonb", Literal: "[]byte", NullableLiteral: "nullable.Jsonb"}
 	DataTypeString      = DataType{Name: "String", Literal: "string", NullableLiteral: "null.String"}
 	DataTypeStringArray = DataType{Name: "StringArray", Literal: "pq.StringArray", NullableLiteral: "pq.StringArray"}
@@ -32,7 +31,6 @@ var NameToType = map[string]DataType{
 	DataTypeInt.Name:         DataTypeInt,
 	DataTypeInt64.Name:       DataTypeInt64,
 	DataTypeBigInt.Name:      DataTypeBigInt,
-	DataTypeBigFloat.Name:    DataTypeBigFloat,
 	DataTypeJSONB.Name:       DataTypeJSONB,
 	DataTypeString.Name:      DataTypeString,
 	DataTypeStringArray.Name: DataTypeStringArray,
