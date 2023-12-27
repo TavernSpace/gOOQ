@@ -90,6 +90,27 @@ func NewDecimalField(
 	return field
 }
 
+// NumericField
+
+type NumericField interface {
+	NumericExpression
+	Field
+}
+
+type defaultNumericField struct {
+	numericExpressionImpl
+	fieldImpl
+}
+
+func NewNumericField(
+	table Table, name string,
+) NumericField {
+	field := &defaultDecimalField{}
+	field.expressionImpl.initFieldExpressionImpl(field)
+	field.fieldImpl.initFieldImpl(field, table, name)
+	return field
+}
+
 // IntField
 
 type IntField interface {
