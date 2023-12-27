@@ -831,6 +831,8 @@ type UUIDExpression interface {
 	NotEq(rhs UUIDExpression) BoolExpression
 	IsEq(rhs uuid.UUID) BoolExpression
 	IsNotEq(rhs uuid.UUID) BoolExpression
+	IsLt(rhs uuid.UUID) BoolExpression
+	IsGt(rhs uuid.UUID) BoolExpression
 
 	// https://www.postgresql.org/docs/11/functions-comparisons.html
 	// [Good First Issue][Help Wanted] TODO: implement remaining operators relevant for expression
@@ -856,6 +858,14 @@ func (expr *uuidExpressionImpl) IsEq(rhs uuid.UUID) BoolExpression {
 
 func (expr *uuidExpressionImpl) IsNotEq(rhs uuid.UUID) BoolExpression {
 	return expr.expressionImpl.notEq(UUID(rhs))
+}
+
+func (expr *uuidExpressionImpl) IsLt(rhs uuid.UUID) BoolExpression {
+	return expr.expressionImpl.lt(UUID(rhs))
+}
+
+func (expr *uuidExpressionImpl) IsGt(rhs uuid.UUID) BoolExpression {
+	return expr.expressionImpl.gt(UUID(rhs))
 }
 
 func (expr *uuidExpressionImpl) IsIn(value ...uuid.UUID) BoolExpression {
