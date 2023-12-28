@@ -17,7 +17,7 @@ var (
 	DataTypeFloat64     = DataType{Name: "Decimal", Literal: "float64", NullableLiteral: "null.Float"}
 	DataTypeInt         = DataType{Name: "Int", Literal: "int", NullableLiteral: "null.Int"}
 	DataTypeInt64       = DataType{Name: "Int", Literal: "int64", NullableLiteral: "null.Int"}
-	DataTypeBigInt      = DataType{Name: "Numeric", Literal: "*big.Int", NullableLiteral: "nullable.BigInt"}
+	DataTypeBigInt      = DataType{Name: "Numeric", Literal: "BigInt", NullableLiteral: "nullable.BigInt"}
 	DataTypeJSONB       = DataType{Name: "Jsonb", Literal: "[]byte", NullableLiteral: "nullable.Jsonb"}
 	DataTypeString      = DataType{Name: "String", Literal: "string", NullableLiteral: "null.String"}
 	DataTypeStringArray = DataType{Name: "StringArray", Literal: "pq.StringArray", NullableLiteral: "pq.StringArray"}
