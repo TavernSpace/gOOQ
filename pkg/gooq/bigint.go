@@ -12,8 +12,8 @@ type BigInt big.Int
 func (b *BigInt) Scan(value interface{}) error {
 	bint := (*big.Int)(b)
 	switch str := value.(type) {
-	case string:
-		if _, ok := bint.SetString(str, 10); ok {
+	case []uint8:
+		if _, ok := bint.SetString(string(str), 10); ok {
 			return nil
 		}
 	}
