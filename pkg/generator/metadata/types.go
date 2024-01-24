@@ -12,6 +12,7 @@ type DataType struct {
 }
 
 var (
+	DataTypeBytea       = DataType{Name: "Bytea", Literal: "pgtype.UndecodedBytes", NullableLiteral: "pgtype.UndecodedBytes"}
 	DataTypeBool        = DataType{Name: "Bool", Literal: "bool", NullableLiteral: "null.Bool"}
 	DataTypeFloat32     = DataType{Name: "Decimal", Literal: "float32", NullableLiteral: "null.Float"}
 	DataTypeFloat64     = DataType{Name: "Decimal", Literal: "float64", NullableLiteral: "null.Float"}

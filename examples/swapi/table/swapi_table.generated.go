@@ -4,10 +4,10 @@ package table
 
 import (
 	"context"
+	"gopkg.in/guregu/null.v3"
 
 	"github.com/lumina-tech/gooq/examples/swapi/model"
 	"github.com/lumina-tech/gooq/pkg/gooq"
-	"gopkg.in/guregu/null.v3"
 )
 
 type colorReferenceTableConstraints struct {
@@ -247,6 +247,7 @@ type species struct {
 	EyeColor        gooq.StringField
 	HomeWorld       gooq.StringField
 	Language        gooq.StringField
+	Hash            gooq.ByteaField
 
 	Constraints *speciesConstraints
 }
@@ -284,6 +285,7 @@ func newSpecies() *species {
 	instance.EyeColor = gooq.NewStringField(instance, "eye_color")
 	instance.HomeWorld = gooq.NewStringField(instance, "home_world")
 	instance.Language = gooq.NewStringField(instance, "language")
+	instance.Hash = gooq.NewByteaField(instance, "hash")
 	instance.Constraints = newSpeciesConstraints(instance)
 	return instance
 }
@@ -306,6 +308,7 @@ func (t *species) GetColumns() []gooq.Expression {
 		t.EyeColor,
 		t.HomeWorld,
 		t.Language,
+		t.Hash,
 	}
 }
 

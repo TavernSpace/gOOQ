@@ -7,9 +7,3 @@ sslmode: "disable"
 migrationPath: "migrations"
 modelPath: "model"
 tablePath: "table"
-modelOverrides:
-  models:
-    species:
-      fields:
-        average_lifespan:
-          overrideType: BigFloat

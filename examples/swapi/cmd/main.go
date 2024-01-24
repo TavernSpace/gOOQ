@@ -38,6 +38,7 @@ func main() {
 		Set(table.Species.EyeColor, model.ColorBrown).
 		Set(table.Species.HomeWorld, "Earth").
 		Set(table.Species.Language, "English").
+		Set(table.Species.Hash, "0xfoobar").
 		Returning(table.Species.Asterisk)
 	species, err := table.Species.ScanRowWithContext(ctx, dockerDB.DB, speciesStmt)
 	if err != nil {
@@ -105,6 +106,7 @@ func main() {
 			speciesWithAlias.EyeColor.As("species.eye_color"),
 			speciesWithAlias.HomeWorld.As("species.home_world"),
 			speciesWithAlias.Language.As("species.language"),
+			speciesWithAlias.Hash.As("species.hash"),
 		).From(table.Person).
 			Join(speciesWithAlias).
 			On(table.Person.SpeciesID.Eq(speciesWithAlias.ID))

@@ -132,6 +132,27 @@ func NewIntField(
 	return field
 }
 
+// ByteaField
+
+type ByteaField interface {
+	StringExpression
+	Field
+}
+
+type defaultByteaField struct {
+	stringExpressionImpl
+	fieldImpl
+}
+
+func NewByteaField(
+	table Table, name string,
+) ByteaField {
+	field := &defaultByteaField{}
+	field.expressionImpl.initFieldExpressionImpl(field)
+	field.fieldImpl.initFieldImpl(field, table, name)
+	return field
+}
+
 // JsonbField
 
 type JsonbField interface {

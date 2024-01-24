@@ -25,6 +25,7 @@ CREATE TABLE species(
   eye_color text NOT NULL,
   home_world text NOT NULL,
   language text NOT NULL,
+  hash bytea,
   FOREIGN KEY (hair_color) REFERENCES color_reference_table(value),
   FOREIGN KEY (skin_color) REFERENCES color_reference_table(value),
   FOREIGN KEY (eye_color) REFERENCES color_reference_table(value)

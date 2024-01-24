@@ -3,8 +3,10 @@
 package model
 
 import (
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/lumina-tech/gooq/pkg/nullable"
+	"gopkg.in/guregu/null.v3"
 )
 
 type ColorReferenceTable struct {
@@ -28,16 +30,17 @@ type Person struct {
 }
 
 type Species struct {
-	ID              uuid.UUID         `db:"id" json:"id"`
-	Name            string            `db:"name" json:"name"`
-	Classification  string            `db:"classification" json:"classification"`
-	AverageHeight   float64           `db:"average_height" json:"average_height"`
-	AverageLifespan nullable.BigFloat `db:"average_lifespan" json:"average_lifespan"`
-	HairColor       Color             `db:"hair_color" json:"hair_color"`
-	SkinColor       Color             `db:"skin_color" json:"skin_color"`
-	EyeColor        Color             `db:"eye_color" json:"eye_color"`
-	HomeWorld       string            `db:"home_world" json:"home_world"`
-	Language        string            `db:"language" json:"language"`
+	ID              uuid.UUID             `db:"id" json:"id"`
+	Name            string                `db:"name" json:"name"`
+	Classification  string                `db:"classification" json:"classification"`
+	AverageHeight   float64               `db:"average_height" json:"average_height"`
+	AverageLifespan null.Float            `db:"average_lifespan" json:"average_lifespan"`
+	HairColor       Color                 `db:"hair_color" json:"hair_color"`
+	SkinColor       Color                 `db:"skin_color" json:"skin_color"`
+	EyeColor        Color                 `db:"eye_color" json:"eye_color"`
+	HomeWorld       string                `db:"home_world" json:"home_world"`
+	Language        string                `db:"language" json:"language"`
+	Hash            pgtype.UndecodedBytes `db:"hash" json:"hash"`
 }
 
 type Weapon struct {

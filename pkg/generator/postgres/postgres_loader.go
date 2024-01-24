@@ -122,6 +122,8 @@ func parseType(
 	switch strings.ToLower(dataType) {
 	case "array":
 		typ = metadata.DataTypeStringArray
+	case "bytea":
+		typ = metadata.DataTypeBytea
 	case "boolean":
 		typ = metadata.DataTypeBool
 	case "character", "character varying", "text", "user-defined":
