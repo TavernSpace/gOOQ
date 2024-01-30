@@ -2,6 +2,7 @@ package gooq
 
 import (
 	"fmt"
+	"github.com/jackc/pgx/v5/pgtype"
 	"reflect"
 	"time"
 
@@ -237,6 +238,10 @@ func (expr *expressionImpl) isDistinctFrom(rhs Expression) BoolExpression {
 	return newBinaryBooleanExpressionImpl(OperatorIsDistinctFrom, expr.getOriginal(), rhs)
 }
 
+func (expr *expressionImpl) isNotDistinctFrom(rhs Expression) BoolExpression {
+	return newBinaryBooleanExpressionImpl(OperatorIsNotDistinctFrom, expr.getOriginal(), rhs)
+}
+
 func (expr *expressionImpl) inArray(
 	value []Expression,
 ) BoolExpression {
@@ -456,6 +461,67 @@ func (expr *boolExpressionImpl) IsNotIn(value ...bool) BoolExpression {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// String
+///////////////////////////////////////////////////////////////////////////////
+
+type ByteaExpression interface {
+	Expression
+
+	// comparison operators helper methods
+	// https://www.postgresql.org/docs/11/functions-comparison.html
+	Eq(rhs ByteaExpression) BoolExpression
+	NotEq(rhs ByteaExpression) BoolExpression
+	IsEq(rhs pgtype.UndecodedBytes) BoolExpression
+	IsNotEq(rhs pgtype.UndecodedBytes) BoolExpression
+
+	IsDistinctFrom(value pgtype.UndecodedBytes) BoolExpression
+	IsNotDistinctFrom(value pgtype.UndecodedBytes) BoolExpression
+
+	// https://www.postgresql.org/docs/11/functions-comparisons.html
+	// [Good First Issue][Help Wanted] TODO: implement remaining operators relevant for expression
+	IsIn(value ...pgtype.UndecodedBytes) BoolExpression
+	IsNotIn(value ...pgtype.UndecodedBytes) BoolExpression
+}
+
+type byteaExpressionImpl struct {
+	expressionImpl
+}
+
+func (expr *byteaExpressionImpl) Eq(rhs ByteaExpression) BoolExpression {
+	return expr.expressionImpl.eq(rhs)
+}
+
+func (expr *byteaExpressionImpl) NotEq(rhs ByteaExpression) BoolExpression {
+	return expr.expressionImpl.notEq(rhs)
+}
+
+func (expr *byteaExpressionImpl) IsEq(rhs pgtype.UndecodedBytes) BoolExpression {
+	return expr.expressionImpl.eq(Bytea(rhs))
+}
+
+func (expr *byteaExpressionImpl) IsNotEq(rhs pgtype.UndecodedBytes) BoolExpression {
+	return expr.expressionImpl.notEq(Bytea(rhs))
+}
+
+func (expr *byteaExpressionImpl) IsDistinctFrom(value pgtype.UndecodedBytes) BoolExpression {
+	return expr.expressionImpl.isDistinctFrom(Bytea(value))
+}
+
+func (expr *byteaExpressionImpl) IsNotDistinctFrom(value pgtype.UndecodedBytes) BoolExpression {
+	return expr.expressionImpl.isNotDistinctFrom(Bytea(value))
+}
+
+func (expr *byteaExpressionImpl) IsIn(value ...pgtype.UndecodedBytes) BoolExpression {
+	expressions := getExpressionSlice(value)
+	return expr.expressionImpl.inArray(expressions)
+}
+
+func (expr *byteaExpressionImpl) IsNotIn(value ...pgtype.UndecodedBytes) BoolExpression {
+	expressions := getExpressionSlice(value)
+	return expr.expressionImpl.notInArray(expressions)
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // Numeric
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -616,6 +682,7 @@ type StringExpression interface {
 	ILike(value string) BoolExpression
 
 	IsDistinctFrom(value string) BoolExpression
+	IsNotDistinctFrom(value string) BoolExpression
 
 	// https://www.postgresql.org/docs/11/functions-comparisons.html
 	// [Good First Issue][Help Wanted] TODO: implement remaining operators relevant for expression
@@ -685,6 +752,10 @@ func (expr *stringExpressionImpl) ILike(value string) BoolExpression {
 
 func (expr *stringExpressionImpl) IsDistinctFrom(value string) BoolExpression {
 	return expr.expressionImpl.isDistinctFrom(String(value))
+}
+
+func (expr *stringExpressionImpl) IsNotDistinctFrom(value string) BoolExpression {
+	return expr.expressionImpl.isNotDistinctFrom(String(value))
 }
 
 func (expr *stringExpressionImpl) IsIn(value ...string) BoolExpression {

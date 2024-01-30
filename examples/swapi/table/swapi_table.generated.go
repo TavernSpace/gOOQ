@@ -4,10 +4,9 @@ package table
 
 import (
 	"context"
-	"gopkg.in/guregu/null.v3"
-
 	"github.com/lumina-tech/gooq/examples/swapi/model"
 	"github.com/lumina-tech/gooq/pkg/gooq"
+	"gopkg.in/guregu/null.v3"
 )
 
 type colorReferenceTableConstraints struct {

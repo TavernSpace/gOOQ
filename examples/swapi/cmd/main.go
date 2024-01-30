@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/jackc/pgx/v5/pgtype"
 	"os"
 
 	"github.com/google/uuid"
@@ -94,6 +95,19 @@ func main() {
 	}
 
 	{
+		stmt := gooq.Select().From(table.Species).
+			Where(table.Species.Hash.IsEq(pgtype.UndecodedBytes("0xfoobar")))
+
+		var results []model.Species
+		if err := gooq.ScanRowsWithContext(ctx, dockerDB.DB, stmt, &results); err != nil {
+			fmt.Fprint(os.Stderr, err.Error())
+			return
+		}
+
+		printQuery(stmt, results)
+	}
+
+	{
 		speciesWithAlias := table.Species.As("species_alias")
 		stmt := gooq.Select(
 			table.Person.Asterisk,
@@ -111,17 +125,13 @@ func main() {
 			Join(speciesWithAlias).
 			On(table.Person.SpeciesID.Eq(speciesWithAlias.ID))
 
-		builder := &gooq.Builder{}
-		stmt.Render(builder)
-		fmt.Println(builder.String())
-
 		var results []PersonWithSpecies
 		if err := gooq.ScanRowsWithContext(ctx, dockerDB.DB, stmt, &results); err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 			return
 		}
-		bytes, _ := json.Marshal(results)
-		fmt.Println(string(bytes))
+
+		printQuery(stmt, results)
 	}
 
 	// same as above but we don't have to manually enumerate all the column in species
@@ -134,18 +144,27 @@ func main() {
 			Join(table.Species).
 			On(table.Person.SpeciesID.Eq(table.Species.ID))
 
-		builder := &gooq.Builder{}
-		stmt.Render(builder)
-		fmt.Println(builder.String())
-
 		var results []PersonWithSpecies
 		if err := gooq.ScanRowsWithContext(ctx, dockerDB.DB, stmt, &results); err != nil {
 			fmt.Fprint(os.Stderr, err.Error())
 			return
 		}
-		bytes, _ := json.Marshal(results)
-		fmt.Println(string(bytes))
+
+		printQuery(stmt, results)
 	}
+}
+
+func printQuery(stmt gooq.Selectable, results interface{}) {
+	builder := &gooq.Builder{}
+	stmt.Render(builder)
+	bytes, _ := json.Marshal(results)
+
+	fmt.Println("### query ###")
+	fmt.Println()
+	fmt.Println(builder.String())
+	fmt.Println()
+	fmt.Println(string(bytes))
+	fmt.Println()
 }
 
 func getColumnsWithPrefix(

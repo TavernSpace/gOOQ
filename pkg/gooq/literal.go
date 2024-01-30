@@ -1,6 +1,7 @@
 package gooq
 
 import (
+	"github.com/jackc/pgx/v5/pgtype"
 	"time"
 
 	"github.com/google/uuid"
@@ -16,6 +17,12 @@ func Literal(value interface{}) Expression {
 
 func Bool(value bool) BoolExpression {
 	expr := &boolExpressionImpl{}
+	expr.expressionImpl.initLiteralExpression(expr, value)
+	return expr
+}
+
+func Bytea(value pgtype.UndecodedBytes) ByteaExpression {
+	expr := &byteaExpressionImpl{}
 	expr.expressionImpl.initLiteralExpression(expr, value)
 	return expr
 }

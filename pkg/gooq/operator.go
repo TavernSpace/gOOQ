@@ -19,15 +19,16 @@ var (
 
 	// comparison functions and operators
 	// https://www.postgresql.org/docs/11/functions-comparison.html
-	OperatorLt    = Operator("<")
-	OperatorLte   = Operator("<=")
-	OperatorGt    = Operator(">")
-	OperatorGte   = Operator(">=")
-	OperatorEq    = Operator("=")
-	OperatorNotEq = Operator("!=")
-	OperatorLike  = Operator("LIKE")
-	OperatorILike = Operator("ILIKE")
-	OperatorIsDistinctFrom = Operator("IS DISTINCT FROM")
+	OperatorLt                = Operator("<")
+	OperatorLte               = Operator("<=")
+	OperatorGt                = Operator(">")
+	OperatorGte               = Operator(">=")
+	OperatorEq                = Operator("=")
+	OperatorNotEq             = Operator("!=")
+	OperatorLike              = Operator("LIKE")
+	OperatorILike             = Operator("ILIKE")
+	OperatorIsDistinctFrom    = Operator("IS DISTINCT FROM")
+	OperatorIsNotDistinctFrom = Operator("IS NOT DISTINCT FROM")
 
 	// mathematical operators
 	// https://www.postgresql.org/docs/11/functions-math.html

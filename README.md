@@ -22,3 +22,9 @@ Contributors (in alphabetical order)
 - @MingjiaNi
 - @tigsss
 - @zahin-mohammad
+
+### versioning
+```
+git tag v0.0.11
+git push origin v0.0.11
+```

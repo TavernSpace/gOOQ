@@ -135,12 +135,12 @@ func NewIntField(
 // ByteaField
 
 type ByteaField interface {
-	StringExpression
+	ByteaExpression
 	Field
 }
 
 type defaultByteaField struct {
-	stringExpressionImpl
+	byteaExpressionImpl
 	fieldImpl
 }
 
