@@ -471,9 +471,11 @@ type ByteaExpression interface {
 	// https://www.postgresql.org/docs/11/functions-comparison.html
 	Eq(rhs ByteaExpression) BoolExpression
 	NotEq(rhs ByteaExpression) BoolExpression
+	DistinctFrom(rhs ByteaExpression) BoolExpression
+	NotDistinctFrom(rhs ByteaExpression) BoolExpression
+
 	IsEq(rhs pgtype.UndecodedBytes) BoolExpression
 	IsNotEq(rhs pgtype.UndecodedBytes) BoolExpression
-
 	IsDistinctFrom(value pgtype.UndecodedBytes) BoolExpression
 	IsNotDistinctFrom(value pgtype.UndecodedBytes) BoolExpression
 
@@ -493,6 +495,14 @@ func (expr *byteaExpressionImpl) Eq(rhs ByteaExpression) BoolExpression {
 
 func (expr *byteaExpressionImpl) NotEq(rhs ByteaExpression) BoolExpression {
 	return expr.expressionImpl.notEq(rhs)
+}
+
+func (expr *byteaExpressionImpl) DistinctFrom(rhs ByteaExpression) BoolExpression {
+	return expr.expressionImpl.isDistinctFrom(rhs)
+}
+
+func (expr *byteaExpressionImpl) NotDistinctFrom(rhs ByteaExpression) BoolExpression {
+	return expr.expressionImpl.isNotDistinctFrom(rhs)
 }
 
 func (expr *byteaExpressionImpl) IsEq(rhs pgtype.UndecodedBytes) BoolExpression {
@@ -671,16 +681,17 @@ type StringExpression interface {
 	Gte(rhs StringExpression) BoolExpression
 	Eq(rhs StringExpression) BoolExpression
 	NotEq(rhs StringExpression) BoolExpression
+	DistinctFrom(rhs StringExpression) BoolExpression
+	NotDistinctFrom(rhs StringExpression) BoolExpression
+
 	IsLt(rhs string) BoolExpression
 	IsLte(rhs string) BoolExpression
 	IsGt(rhs string) BoolExpression
 	IsGte(rhs string) BoolExpression
 	IsEq(rhs string) BoolExpression
 	IsNotEq(rhs string) BoolExpression
-
 	Like(value string) BoolExpression
 	ILike(value string) BoolExpression
-
 	IsDistinctFrom(value string) BoolExpression
 	IsNotDistinctFrom(value string) BoolExpression
 
@@ -716,6 +727,14 @@ func (expr *stringExpressionImpl) Eq(rhs StringExpression) BoolExpression {
 
 func (expr *stringExpressionImpl) NotEq(rhs StringExpression) BoolExpression {
 	return expr.expressionImpl.notEq(rhs)
+}
+
+func (expr *stringExpressionImpl) DistinctFrom(rhs StringExpression) BoolExpression {
+	return expr.expressionImpl.isDistinctFrom(rhs)
+}
+
+func (expr *stringExpressionImpl) NotDistinctFrom(rhs StringExpression) BoolExpression {
+	return expr.expressionImpl.isNotDistinctFrom(rhs)
 }
 
 func (expr *stringExpressionImpl) IsLt(rhs string) BoolExpression {
